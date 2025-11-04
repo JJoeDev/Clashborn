@@ -10,7 +10,7 @@
 namespace ark::scene {
     class MainMenu final : public BaseScene {
     public:
-        MainMenu();
+        MainMenu() = default;
         ~MainMenu() override;
 
         void Start() override;

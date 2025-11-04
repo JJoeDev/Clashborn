@@ -5,6 +5,7 @@
 
 namespace ark::settings {
     struct Specs final {
+        bool fullscreen{false}; // Override width and height params for windowed full screen
         int width;
         int height;
         std::string title;

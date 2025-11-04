@@ -1,6 +1,7 @@
 #include "Application.h"
 
 #include <cassert>
+#include <iostream>
 #include <raylib.h>
 
 namespace ark {
@@ -12,6 +13,16 @@ namespace ark {
         SetConfigFlags(FLAG_MSAA_4X_HINT);
         InitWindow(specs.width, specs.height, specs.title.c_str());
         SetTargetFPS(120);
+
+        if (specs.fullscreen) {
+            auto currentMonitor = GetCurrentMonitor();
+            m_specs.width = GetMonitorWidth(currentMonitor);
+            m_specs.height = GetMonitorHeight(currentMonitor);
+
+            SetWindowSize(m_specs.width, m_specs.height);
+            SetWindowPosition(0, 0);
+            ToggleFullscreen();
+        }
     }
 
     Application::~Application(){

@@ -30,7 +30,7 @@ namespace ark {
         static Application& Get();
 
     private:
-        const settings::Specs m_specs{};
+        settings::Specs m_specs{};
 
         std::vector<std::unique_ptr<scene::BaseScene>> m_sceneStack{};
         int m_currentSceneIndex{0};

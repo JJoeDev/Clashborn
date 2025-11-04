@@ -1,9 +1,15 @@
 #include "MainMenu.h"
 
+#include <iostream>
+
 #include "raylib.h"
 
 namespace ark::scene {
-    MainMenu::MainMenu() {
+    MainMenu::~MainMenu() {
+        m_specs = nullptr;
+    }
+
+    void MainMenu::Start() {
         m_specs = Application::Get().GetAppSpecs();
 
         m_titlePos = {
@@ -17,16 +23,8 @@ namespace ark::scene {
         };
     }
 
-    MainMenu::~MainMenu() {
-        m_specs = nullptr;
-    }
-
-    void MainMenu::Start() {
-
-    }
-
     void MainMenu::Stop() {
-
+        m_specs = nullptr;
     }
 
     void MainMenu::Update(const float dt) {
