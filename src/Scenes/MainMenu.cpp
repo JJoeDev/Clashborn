@@ -1,7 +1,5 @@
 #include "MainMenu.h"
 
-#include <iostream>
-
 #include "raylib.h"
 
 namespace ark::scene {

@@ -18,7 +18,8 @@ namespace ark {
         }
 
         // Loops through all stored entities, returns pointer if tags match else returns nullptr
-        const Entity* TryFindEntityWithTag(const std::string& tag) const;
+        [[nodiscard]] const Entity* TryFindEntityWithTag(const std::string& tag) const;
+        [[nodiscard]] const Entity* TryFindEntityWithTagEx(const std::string& tag, const Entity* exclude) const;
 
         void ClearEntities();
 

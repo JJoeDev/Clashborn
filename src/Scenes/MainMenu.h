@@ -5,7 +5,7 @@
 
 #include "Application.h"
 #include "BaseScene.h"
-#include "../math/Vectors.h"
+#include "math/Vectors.h"
 
 namespace ark::scene {
     class MainMenu final : public BaseScene {

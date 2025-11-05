@@ -4,6 +4,7 @@
 #include <string>
 
 #include "math/Vectors.h"
+#include "Components/Transform.h"
 
 namespace ark {
     class EntityManager;
@@ -23,8 +24,7 @@ namespace ark {
 
         std::string m_tag{};
 
-        math::Vec2f m_position{};
-        math::Vec2f m_velocity{};
+        comp::Transform m_transform{};
     };
 }
 

@@ -9,6 +9,16 @@ namespace ark {
         return nullptr;
     }
 
+    const Entity* EntityManager::TryFindEntityWithTagEx(const std::string& tag, const Entity* exclude) const {
+        for (const auto& e : m_entities) {
+            if (e.get() == exclude) continue;
+            if (e->GetEntityTag() == tag) return e.get();
+        }
+
+        return nullptr;
+    }
+
+
     void EntityManager::ClearEntities() {
         for (auto& e : m_entities) {
             e.reset();
