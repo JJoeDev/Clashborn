@@ -1,6 +1,9 @@
 #include "Player.h"
 
+#include <iostream>
+
 #include "Application.h"
+#include "EntityManager.h"
 #include "Settings/Misc.h"
 
 namespace ark {
@@ -11,12 +14,11 @@ namespace ark {
         m_transform.Position = startPos;
         m_transform.Scale = {30, 60};
 
-        m_aabbShape = {
-            m_transform.Position.x,
-            m_transform.Position.y,
-            m_transform.Scale.x,
-            m_transform.Scale.y
-        };
+        AddComponent<comp::AABBShape>();
+
+        m_aabb = GetComponent<comp::AABBShape>();
+        m_aabb->Shape.width = m_transform.Scale.x;
+        m_aabb->Shape.height = m_transform.Scale.y;
     }
 
     Player::~Player() {
@@ -27,6 +29,7 @@ namespace ark {
     void Player::Update(const float dt) {
         math::Vec2f dir{};
 
+        const auto* other = m_entityManager->TryFindEntityWithTag("Player");
         if (m_transform.Position.y + m_transform.Scale.y >= static_cast<float>(m_specs->height) - 5.0f) {
             m_grounded = true;
             m_velocity.y = 0.0f;
@@ -46,12 +49,13 @@ namespace ark {
         m_velocity.x = dir.x * m_baseSpeed;
 
         m_transform.Position += m_velocity * dt;
-        m_aabbShape.Shape.x = m_transform.Position.x;
-        m_aabbShape.Shape.y = m_transform.Position.y;
+
+        m_aabb->Shape.x = m_transform.Position.x;
+        m_aabb->Shape.y = m_transform.Position.y;
     }
 
     void Player::Draw() const {
         DrawRectangle(m_transform.Position.x, m_transform.Position.y, m_transform.Scale.x, m_transform.Scale.y, RED);
-        DrawRectangleLinesEx(m_aabbShape.Shape, 1.0f, GREEN);
+        DrawRectangleLinesEx(m_aabb->Shape, 1.0f, GREEN);
     }
 }

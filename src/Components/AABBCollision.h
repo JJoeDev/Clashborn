@@ -3,8 +3,10 @@
 
 #include <raylib.h>
 
+#include "Component.h"
+
 namespace ark::comp {
-    struct AABBShape {
+    struct AABBShape : public Component{
         Rectangle Shape;
     };
 }

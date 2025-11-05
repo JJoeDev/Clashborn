@@ -11,6 +11,8 @@ namespace ark {
     public:
         template<typename TEntity, typename... Args>
         TEntity* CreateEntity(Args&&... args) {
+            static_assert(std::is_base_of_v<Entity, TEntity>, "TEntity must derive from Entity");
+
             auto entity = std::make_unique<TEntity>(std::forward<Args>(args)...);
             TEntity* ptr = entity.get();
             m_entities.push_back(std::move(entity));
@@ -19,7 +21,18 @@ namespace ark {
 
         // Loops through all stored entities, returns pointer if tags match else returns nullptr
         [[nodiscard]] const Entity* TryFindEntityWithTag(const std::string& tag) const;
-        [[nodiscard]] const Entity* TryFindEntityWithTagEx(const std::string& tag, const Entity* exclude) const;
+
+        template<typename TComponent>
+        [[nodiscard]] std::vector<Entity*> GetEntitiesWithComponent() const {
+            std::vector<Entity*> result;
+            for (auto& entity : m_entities) {
+                if (entity->HasComponent<TComponent>()) {
+                    result.push_back(entity.get());
+                }
+            }
+
+            return result;
+        }
 
         void ClearEntities();
 

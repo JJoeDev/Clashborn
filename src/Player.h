@@ -19,10 +19,10 @@ namespace ark {
         const settings::Specs* m_specs;
         const input::InputMap m_inputs;
 
-        comp::AABBShape m_aabbShape;
+        comp::AABBShape* m_aabb;
 
         bool m_grounded{};
-        const float m_baseSpeed{200.0f};
+        const float m_baseSpeed{600.0f};
         const float m_jumpForce{-750.0f};
 
         math::Vec2f m_velocity{};
