@@ -17,8 +17,12 @@ namespace ark {
         AddComponent<comp::AABBShape>();
 
         m_aabb = GetComponent<comp::AABBShape>();
-        m_aabb->Shape.width = m_transform.Scale.x;
-        m_aabb->Shape.height = m_transform.Scale.y;
+        m_aabb->Shape = {
+            startPos.x,
+            startPos.y,
+            m_transform.Scale.x,
+            m_transform.Scale.y,
+        };
     }
 
     Player::~Player() {
@@ -27,28 +31,71 @@ namespace ark {
     }
 
     void Player::Update(const float dt) {
+        math::Vec2f lastPosition = m_transform.Position;
+
         math::Vec2f dir{};
-
-        const auto* other = m_entityManager->TryFindEntityWithTag("Player");
-        if (m_transform.Position.y + m_transform.Scale.y >= static_cast<float>(m_specs->height) - 5.0f) {
-            m_grounded = true;
-            m_velocity.y = 0.0f;
-        }
-        else {
-            m_grounded = false;
-            m_velocity.y += settings::GRAVITY_Y;
-        }
-
         dir.x = IsKeyDown(m_inputs.RIGHT) - IsKeyDown(m_inputs.LEFT);
 
-        if (IsKeyPressed(m_inputs.JUMP) && m_grounded) {
-            m_velocity.y = m_jumpForce;
-            m_grounded = false;
+        if (m_grounded) {
+            if (IsKeyPressed(m_inputs.JUMP)) {
+                m_velocity.y = m_jumpForce;
+                m_grounded = false;
+            }
+            else {
+                m_velocity.y = 0.0f;
+            }
+        }
+        else {
+            m_velocity.y += settings::GRAVITY_Y;
         }
 
         m_velocity.x = dir.x * m_baseSpeed;
 
         m_transform.Position += m_velocity * dt;
+
+        m_aabb->Shape.x = m_transform.Position.x;
+        m_aabb->Shape.y = m_transform.Position.y;
+
+        m_grounded = false;
+        std::vector<Entity*> colliders = m_entityManager->GetEntitiesWithComponent<comp::AABBShape>();
+        for (auto& e : colliders) {
+            if (e == this) continue;
+
+            auto* otherAABB = e->GetComponent<comp::AABBShape>();
+            if (CheckCollisionRecs(otherAABB->Shape, m_aabb->Shape)) {
+                float xMove = m_transform.Position.x - lastPosition.x;
+                float yMove = m_transform.Position.y - lastPosition.y;
+
+                if (std::abs(yMove) > std::abs(xMove)) {
+                    // Vertical response
+                    if (yMove > 0.0f) { // Moving Down, landed on something
+                        m_transform.Position.y = otherAABB->Shape.y - m_aabb->Shape.height;
+                        m_velocity.y = 0.0f;
+                        m_grounded = true;
+                    }
+                    else if (yMove < 0.0f) { // Moving up, hit head on something
+                        m_transform.Position.y = otherAABB->Shape.y + otherAABB->Shape.height;
+                        m_velocity.y = 0.0f;
+                    }
+                }
+                else if (xMove != 0) {
+                    if (xMove > 0) {
+                        m_transform.Position.x = otherAABB->Shape.x - m_aabb->Shape.width;
+                    }
+                    else {
+                        m_transform.Position.x = otherAABB->Shape.x + otherAABB->Shape.width;
+                    }
+
+                    m_velocity.x = 0.0f;
+                }
+            }
+        }
+
+        if (m_transform.Position.y + m_aabb->Shape.height >= m_specs->height - 5.0f) {
+            m_transform.Position.y = m_specs->height - 5.0f - m_aabb->Shape.height;
+            m_grounded = true;
+            m_velocity.y = 0.0f;
+        }
 
         m_aabb->Shape.x = m_transform.Position.x;
         m_aabb->Shape.y = m_transform.Position.y;
