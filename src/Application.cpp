@@ -12,7 +12,7 @@ namespace ark {
 
         SetConfigFlags(FLAG_MSAA_4X_HINT);
         InitWindow(specs.width, specs.height, specs.title.c_str());
-        SetTargetFPS(120);
+        SetTargetFPS(60);
 
         if (specs.fullscreen) {
             auto currentMonitor = GetCurrentMonitor();

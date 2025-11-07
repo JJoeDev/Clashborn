@@ -5,25 +5,35 @@
 #include "Settings/Specifications.h"
 #include "InputMaps/InputMaps.h"
 #include "Components/AABBCollision.h"
+#include "Components/Health.h"
+#include "AttackBox.h"
+#include "Characters/Characters.h"
 
 namespace ark {
     class Player final : public Entity {
     public:
-        Player(const EntityManager* eManager, const input::InputMap& imap, const math::Vec2f& startPos);
+        Player(const EntityManager* eManager, const input::InputMap& imap, const math::Vec2f& startPos, const characters::Character);
         ~Player();
 
         void Update(const float dt) override;
         void Draw() const override;
 
     private:
+        void CollisionUpdate();
+
+    private:
         const settings::Specs* m_specs;
         const input::InputMap m_inputs;
 
         comp::AABBShape* m_aabb;
+        comp::Health* m_health;
 
+        std::unique_ptr<AttackBox> m_attackBox;
+
+        int m_xFacingDir{};
         bool m_grounded{};
-        const float m_baseSpeed{600.0f};
-        const float m_jumpForce{-750.0f};
+        float m_baseSpeed{};
+        float m_jumpForce{};
 
         math::Vec2f m_velocity{};
     };

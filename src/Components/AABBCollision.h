@@ -6,8 +6,13 @@
 #include "Component.h"
 
 namespace ark::comp {
-    struct AABBShape : public Component{
+    struct AABBShape : public Component {
+        bool Enabled{true};
         Rectangle Shape;
+
+        void DebugDraw() const {
+            DrawRectangleLinesEx(Shape, 1.0f, GREEN);
+        }
     };
 }
 

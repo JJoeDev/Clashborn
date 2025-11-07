@@ -17,6 +17,7 @@ namespace ark::scene {
         void Draw() const override;
 
     private:
+        Texture2D m_background{};
         EntityManager m_entityManager;
     };
 }

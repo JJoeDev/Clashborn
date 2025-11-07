@@ -30,3 +30,7 @@ add_executable(${PROJECT_NAME})
 target_sources(${PROJECT_NAME} PRIVATE ${SRC})
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE})
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
+
+# Setting ASSETS_PATH
+target_compile_definitions(${PROJECT_NAME} PUBLIC ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/Resources/") # Set the asset path macro to the absolute path on the dev machine
+target_compile_definitions(${PROJECT_NAME} PUBLIC ASSETS_PATH="./Resources") # Set the asset path macro in release mode to a relative path that assumes the assets folder is in the same directory as the game executable

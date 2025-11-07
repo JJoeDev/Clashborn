@@ -18,6 +18,8 @@ namespace ark {
         void SetEntityTag(const std::string& tag) { m_tag = tag; }
         const std::string& GetEntityTag() { return m_tag; }
 
+        const comp::Transform& GetTransform() const { return m_transform; }
+
         virtual void Update(const float dt) = 0;
         virtual void Draw() const = 0;
 
@@ -49,8 +51,9 @@ namespace ark {
 
         comp::Transform m_transform{};
 
+        Texture2D m_sprite{};
+
     private:
-        // Written by AI so I can get this project done in time. I am sad to announce I have no idea what is going on
         std::unordered_map<std::type_index, std::unique_ptr<comp::Component>> m_components;
     };
 }
