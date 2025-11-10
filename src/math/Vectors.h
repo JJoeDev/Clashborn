@@ -71,6 +71,10 @@ namespace ark::math {
     using Vec2i = Vec2T<int>;
     using Vec2f = Vec2T<float>;
 
+    inline Vec2f operator-(const Vec2f& rhs, const Vec2f& lhs) {
+        return {rhs.x - lhs.x, rhs.y - lhs.y};
+    }
+
     inline Vec2f operator+(const Vec2f& lhs, const Vec2f& rhs) {
         return {lhs.x + rhs.x, lhs.y + rhs.y};
     }

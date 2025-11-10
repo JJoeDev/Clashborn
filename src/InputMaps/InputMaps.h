@@ -5,25 +5,27 @@
 
 namespace ark::input {
     struct InputMap {
-        InputMap(uint16_t left, uint16_t right, uint16_t jump, uint16_t attack)
+        InputMap(uint16_t left, uint16_t right, uint16_t jump, uint16_t duck, uint16_t attack)
             : LEFT(left),
             RIGHT(right),
             JUMP(jump),
-            ATTACK(attack)
+            ATTACK(attack),
+            DUCK(duck)
         { }
 
         const uint16_t LEFT;
         const uint16_t RIGHT;
         const uint16_t JUMP;
+        const uint16_t DUCK;
         const uint16_t ATTACK;
     };
 
     struct PlayerOneIMap : public InputMap {
-        PlayerOneIMap() : InputMap(KEY_A, KEY_D, KEY_W, KEY_E){}
+        PlayerOneIMap() : InputMap(KEY_A, KEY_D, KEY_W, KEY_S, KEY_F){}
     };
 
     struct PlayerTwoIMap : public InputMap {
-        PlayerTwoIMap() : InputMap(KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_RIGHT_CONTROL){}
+        PlayerTwoIMap() : InputMap(KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN, KEY_G){}
     };
 }
 

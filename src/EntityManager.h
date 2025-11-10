@@ -20,7 +20,7 @@ namespace ark {
         }
 
         // Loops through all stored entities, returns pointer if tags match else returns nullptr
-        [[nodiscard]] const Entity* TryFindEntityWithTag(const std::string& tag) const;
+        [[nodiscard]] const std::vector<Entity*> TryFindEntitiesWithTag(const std::string& tag) const;
 
         template<typename TComponent>
         [[nodiscard]] std::vector<Entity*> GetEntitiesWithComponent() const {

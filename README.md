@@ -16,9 +16,16 @@ totally not because none of us know how to draw
 - [x] Attacks (Players can attack each other)
 - [x] Different character stats
 - [x] **DEATH** (includes health on players)
-- [ ] Map (With falling to once death)
+- [x] Health bar
+- [X] 4 characters
+- [x] Map (With falling to once death, well platforms at least)
 - [ ] Interaction between Arduino & RFID readers
 - [ ] Controls for the arcade cabinet
 - [ ] Audio
-- [ ] Sprites and assets
+- [x] Sprites and assets
 - [ ] Character selections
+
+## Libraries we use
+- [Raylib](https://github.com/raysan5/raylib) for rendering, windowing, and inputs
+- [simple_serial_port](https://github.com/dmicha16/simple_serial_port) for serial
+communication with the Arduino

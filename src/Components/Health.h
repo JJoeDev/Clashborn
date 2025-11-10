@@ -5,7 +5,8 @@
 
 namespace ark::comp {
     struct Health final : public Component {
-        float healthAmount{100.0f};
+        float maxHealthAmount{};
+        float healthAmount{};
         bool dead{false};
 
         void TakeDamage(float amount) {

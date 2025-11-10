@@ -24,6 +24,8 @@ namespace ark {
             if (!m_visible) m_visible = true;
 
             m_lifetime -= dt;
+
+            m_aabb->Shape.x += 100.0f * m_xDirection * dt;
         }
         else if (m_visible) {
             m_visible = false;
@@ -39,8 +41,6 @@ namespace ark {
         Vector2 dst = {m_aabb->Shape.x, m_aabb->Shape.y};
 
         DrawTextureRec(m_sprite, src, dst, {255, 255, 255, static_cast<uint8_t>(255 * (m_lifetime / m_maxLifetime))});
-
-        m_aabb->DebugDraw();
     }
 
     void AttackBox::RunAttack(int xDirection) {

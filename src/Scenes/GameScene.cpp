@@ -2,6 +2,7 @@
 
 #include "Player.h"
 #include "Application.h"
+#include "Platform.h"
 
 namespace ark::scene {
     void GameScene::Start() {
@@ -11,14 +12,24 @@ namespace ark::scene {
             m_background = LoadTexture(std::string(ASSETS_PATH + std::string("Background.png")).c_str());
         }
 
-        auto chad = characters::GetCharacterStats(characters::CHARACTERS::BigBuffChad);
-        auto alien = characters::GetCharacterStats(characters::CHARACTERS::BigBlueAlien);
-
-        auto plr1 = m_entityManager.CreateEntity<Player>(&m_entityManager, input::PlayerOneIMap{}, math::Vec2f{200, 200}, chad);
+        auto plr1 = m_entityManager.CreateEntity<Player>(
+            &m_entityManager,
+            input::PlayerOneIMap{},
+            math::Vec2f{200, 200},
+            characters::EggGoblin()
+            );
         plr1->SetEntityTag("Player");
 
-        auto plr2 = m_entityManager.CreateEntity<Player>(&m_entityManager, input::PlayerTwoIMap{}, math::Vec2f{static_cast<float>(specs->width - 200), 200}, alien);
+        auto plr2 = m_entityManager.CreateEntity<Player>(
+            &m_entityManager,
+            input::PlayerTwoIMap{},
+            math::Vec2f{static_cast<float>(specs->width - 200), 200},
+            characters::MissKill()
+            );
         plr2->SetEntityTag("Player");
+
+        /// Create the level of entities with colliders
+        m_entityManager.CreateEntity<Platform>(math::Vec2f{50.0f, 800.0f}, math::Vec2f{400.0f, 15.0f});
     }
 
     void GameScene::Stop() {
@@ -33,6 +44,5 @@ namespace ark::scene {
 
     void GameScene::Draw() const {
         m_entityManager.Draw();
-        DrawFPS(10, 10);
     }
 }

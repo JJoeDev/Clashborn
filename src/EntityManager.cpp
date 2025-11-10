@@ -1,12 +1,13 @@
 #include "EntityManager.h"
 
 namespace ark {
-    const Entity* EntityManager::TryFindEntityWithTag(const std::string& tag) const {
+    const std::vector<Entity*> EntityManager::TryFindEntitiesWithTag(const std::string& tag) const {
+        std::vector<Entity*> entities;
         for (const auto& e : m_entities) {
-            if (e->GetEntityTag() == tag) return e.get();
+            if (e->GetEntityTag() == tag) entities.push_back(e.get());
         }
 
-        return nullptr;
+        return entities;
     }
 
     void EntityManager::ClearEntities() {
