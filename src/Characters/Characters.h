@@ -2,11 +2,15 @@
 #define ARKADE_CHARACTERS_H
 
 #include <string>
+#include <raylib.h>
 
 namespace ark::characters {
     enum class CHARACTERS {
         BigBuffChad = 0,
         BigBlueAlien,
+        EggGoblin,
+        MissKill,
+        COUNT, // The amount of characters there are
     };
 
     struct Character {

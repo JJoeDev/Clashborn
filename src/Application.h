@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "Characters/Characters.h"
 #include "Settings/Specifications.h"
 #include "Scenes/BaseScene.h"
 
@@ -22,12 +23,14 @@ namespace ark {
         }
 
         void SwitchScene(const int newIndex);
-        int GetCurrentSceneIndex() const;
+        [[nodiscard]] int GetCurrentSceneIndex() const;
 
-        [[nodiscard]]
-        const settings::Specs* GetAppSpecs() const;
+        [[nodiscard]] const settings::Specs* GetAppSpecs() const;
 
-        static Application& Get();
+        characters::CHARACTERS m_playerOne = characters::CHARACTERS::BigBuffChad;
+        characters::CHARACTERS m_playerTwo = characters::CHARACTERS::BigBlueAlien;
+
+        [[nodiscard]] static Application& Get();
 
     private:
         settings::Specs m_specs{};

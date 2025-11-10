@@ -1,4 +1,6 @@
 #include "Application.h"
+
+#include "Scenes/CharacterSelection.h"
 #include "Scenes/MainMenu.h"
 #include "Scenes/GameScene.h"
 
@@ -13,6 +15,7 @@ int main() {
     ark::Application app(specs);
 
     app.PushScene<ark::scene::MainMenu>();
+    app.PushScene<ark::scene::CharacterSelection>();
     app.PushScene<ark::scene::GameScene>();
 
     app.Run();
