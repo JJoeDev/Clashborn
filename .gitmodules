@@ -1,0 +1,3 @@
+[submodule "extern/simple_serial_port"]
+	path = extern/simple_serial_port
+	url = https://github.com/dmicha16/simple_serial_port
