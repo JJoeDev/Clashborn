@@ -26,9 +26,15 @@ FetchContent_MakeAvailable(raylib)
 file(GLOB_RECURSE SRC CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/src/*.cpp")
 set(INCLUDE "${CMAKE_CURRENT_LIST_DIR}/src/")
 
+file(GLOB_RECURSE SIMPLE_SERIAL_SRC "${CMAKE_CURRENT_LIST_DIR}/extern/simple_serial_port/*.cpp")
+list(APPEND SRC ${SIMPLE_SERIAL_SRC})
+
 add_executable(${PROJECT_NAME})
 target_sources(${PROJECT_NAME} PRIVATE ${SRC})
-target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE})
+target_include_directories(${PROJECT_NAME} PRIVATE
+        ${INCLUDE}
+        ${CMAKE_CURRENT_LIST_DIR}/extern/simple_serial_port/simple-serial-port/
+)
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
 
 # Setting ASSETS_PATH
