@@ -3,6 +3,7 @@
 
 #include "BaseScene.h"
 #include "Settings/Specifications.h"
+#include "SerialBridge.h"
 #include "raylib.h"
 
 #include <array>
@@ -32,6 +33,9 @@ namespace ark::scene {
 
         uint16_t m_p1Selection = 0;
         uint16_t m_p2Selection = 0;
+        bool m_playerSelectTurn{false};
+
+        void* m_serial{nullptr};
     };
 
 }

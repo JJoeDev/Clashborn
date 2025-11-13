@@ -22,7 +22,7 @@ namespace ark::scene {
     private:
         const settings::Specs* m_specs;
 
-        const std::string m_title{"HOLY FUQ A GAME"};
+        const std::string m_title{"CLASH BORN"};
         const int m_titleFontSize{40};
         math::Vec2i m_titlePos{};
 

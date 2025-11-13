@@ -49,7 +49,15 @@ namespace ark {
     }
 
     void Player::Update(const float dt) {
-        if (m_health->dead) return;
+        if (m_health->dead && m_deadTime > 0.0f) {
+            m_deadTime -= dt;
+            return;
+        }
+        else if (m_health->dead && m_deadTime <= 0.0f) {
+            std::cout << "PLAYER IS SWITCHING SCENE!\n";
+            Application::Get().SwitchScene(Application::Get().GetCurrentSceneIndex() - 1);
+            return;
+        }
 
         m_lastPosition = m_transform.Position;
 
@@ -66,14 +74,16 @@ namespace ark {
             if (m_didGroundPound) {
                 m_didGroundPound = false;
 
-                std::vector<Entity*> entities = m_entityManager->TryFindEntitiesWithTag("Player");
-                for (auto& e : entities) {
-                    if (e == this) continue;
+                auto entities = m_entityManager->TryFindEntitiesWithTag("Player");
+                if (entities) {
+                    for (auto& e : entities.value()) {
+                        if (e == this) continue;
 
-                    math::Vec2f dist = e->GetTransform().Position - m_transform.Position;
-                    if (dist.Magnitude() <= m_groundPoundArea) {
-                        e->GetComponent<comp::Velocity>()->dir.y = m_groundPoundForce;
-                        e->GetComponent<comp::Health>()->TakeDamage(m_characterStats.groundPoundDamage);
+                        math::Vec2f dist = e->GetTransform().Position - m_transform.Position;
+                        if (dist.Magnitude() <= m_groundPoundArea) {
+                            e->GetComponent<comp::Velocity>()->dir.y = m_groundPoundForce;
+                            e->GetComponent<comp::Health>()->TakeDamage(m_characterStats.groundPoundDamage);
+                        }
                     }
                 }
             }
@@ -115,7 +125,10 @@ namespace ark {
     }
 
     void Player::Draw() const {
-        if (m_health->dead) return;
+        if (m_health->dead) {
+            DrawText("I AM DEAD NOW ;)", 100, 100, 30, RED);
+            return;
+        }
 
         DrawTexture(m_sprite, m_transform.Position.x, m_transform.Position.y, WHITE);
 

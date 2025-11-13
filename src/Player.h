@@ -44,6 +44,8 @@ namespace ark {
         const float m_groundPoundArea{200.0f};
         bool m_didGroundPound{};
         bool m_airJump{};
+
+        float m_deadTime{3.0f};
     };
 }
 

@@ -2,6 +2,7 @@
 #define ARKADE_ENTITYMANAGER_H
 
 #include <memory>
+#include <optional>
 #include <vector>
 
 #include "Entity.h"
@@ -20,7 +21,7 @@ namespace ark {
         }
 
         // Loops through all stored entities, returns pointer if tags match else returns nullptr
-        [[nodiscard]] const std::vector<Entity*> TryFindEntitiesWithTag(const std::string& tag) const;
+        [[nodiscard]] std::optional<std::vector<Entity*>> TryFindEntitiesWithTag(const std::string& tag) const;
 
         template<typename TComponent>
         [[nodiscard]] std::vector<Entity*> GetEntitiesWithComponent() const {

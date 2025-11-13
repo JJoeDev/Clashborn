@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Application.h"
+#include "SerialBridge.h"
 
 namespace ark::scene {
     void CharacterSelection::Start() {
@@ -14,21 +15,51 @@ namespace ark::scene {
         for (size_t i = 0; i < m_characterTexPath.size(); ++i) {
             m_characterPfp[i] = LoadTexture(std::string(ASSETS_PATH + m_characterTexPath[i]).c_str());
         }
+
+        m_serial = OpenSerialPort();
     }
 
     void CharacterSelection::Stop() {
+        CloseSerialPort(m_serial);
+
         for (const auto& tex : m_characterPfp) {
             UnloadTexture(tex);
         }
     }
 
     void CharacterSelection::Update(const float dt) {
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+            Vector2 pos = GetMousePosition();
+
+            for (size_t i = 0; i < m_characterPfp.size(); ++i) {
+                const auto& tex = m_characterPfp[i];
+
+                const float left = 200.0f + tex.width * i * 4;
+                const float right = left + tex.width * 4;
+
+                if (pos.x > left && pos.x <= right) {
+                    if (m_playerSelectTurn && i != m_p2Selection) {
+                        m_p1Selection = i;
+                        m_playerSelectTurn = !m_playerSelectTurn;
+                    }
+                    else if (!m_playerSelectTurn && i != m_p1Selection) {
+                        m_p2Selection = i;
+                        m_playerSelectTurn = !m_playerSelectTurn;
+                    }
+                }
+            }
+        }
+
         if (IsKeyPressed(KEY_SPACE)) {
             auto& app = Application::Get();
             app.m_playerOne = static_cast<characters::CHARACTERS>(m_p1Selection);
             app.m_playerTwo = static_cast<characters::CHARACTERS>(m_p2Selection);
 
             app.SwitchScene(app.GetCurrentSceneIndex() + 1);
+        }
+
+        if (IsKeyPressed(KEY_R)) {
+            GetArduinoSerialMessage(m_serial);
         }
     }
 

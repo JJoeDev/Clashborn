@@ -72,6 +72,25 @@ namespace ark::characters {
             sprite = LoadTexture(std::string(ASSETS_PATH + std::string("MissKill.png")).c_str());
         }
     };
+
+    inline Character GetCharacter(const CHARACTERS c) noexcept {
+        switch (c) {
+        case CHARACTERS::BigBuffChad:
+            return Chad();
+            break;
+        case CHARACTERS::BigBlueAlien:
+            return Alien();
+            break;
+        case CHARACTERS::EggGoblin:
+            return EggGoblin();
+            break;
+        case CHARACTERS::MissKill:
+            return MissKill();
+            break;
+        default:
+            break;
+        }
+    }
 }
 
 #endif //ARKADE_CHARACTERS_H

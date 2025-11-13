@@ -6,7 +6,7 @@
 
 int main() {
     ark::settings::Specs specs {
-        .fullscreen = true,
+        .fullscreen = false,
         .width = 800,
         .height = 800,
         .title = "Arkade spil"

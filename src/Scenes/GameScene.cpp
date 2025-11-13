@@ -6,6 +6,7 @@
 
 namespace ark::scene {
     void GameScene::Start() {
+        const auto& app = Application::Get();
         auto specs = Application::Get().GetAppSpecs();
 
         if (!IsTextureValid(m_background)) {
@@ -16,7 +17,7 @@ namespace ark::scene {
             &m_entityManager,
             input::PlayerOneIMap{},
             math::Vec2f{200, 200},
-            characters::EggGoblin()
+            characters::GetCharacter(app.m_playerOne)
             );
         plr1->SetEntityTag("Player");
 
@@ -24,7 +25,7 @@ namespace ark::scene {
             &m_entityManager,
             input::PlayerTwoIMap{},
             math::Vec2f{static_cast<float>(specs->width - 200), 200},
-            characters::MissKill()
+            characters::GetCharacter(app.m_playerTwo)
             );
         plr2->SetEntityTag("Player");
 
